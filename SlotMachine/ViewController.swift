@@ -33,6 +33,9 @@ class ViewController: UIViewController {
     var betMaxButton: UIButton!
     var spinButton: UIButton!
     
+    // slots
+    var slots : [[Slot]] = []
+    
     // Margins
     let kMarginForView: CGFloat = 10.0
     let kMarginForSlot: CGFloat = 2.0
@@ -80,7 +83,9 @@ class ViewController: UIViewController {
     }
     
     func spinButtonPressed(sender: UIButton){
-        println("spin button pressed")
+        println("spin button pressed") // Debugging purposes
+        slots = Factory.createSlots()
+        self.setupSecondContainer(secondContainer)
     }
     
     // Mark - Setup Containers
@@ -127,7 +132,19 @@ class ViewController: UIViewController {
         
         for var containerNumber = 0; containerNumber < kNumberOfContainers; containerNumber++ {
             for var slotNumber = 0; slotNumber < kNumberOfSlots; slotNumber++ {
+                
+                var slot: Slot
                 var slotImageView = UIImageView()
+                
+                if self.slots.count != 0 {
+                    let slotContainer = self.slots[containerNumber]
+                    slot = slotContainer[slotNumber]
+                    slotImageView.image = slot.image
+                }else{
+                
+                    slotImageView.image = UIImage(named: "Ace")
+                }
+                
                 slotImageView.backgroundColor = UIColor.yellowColor()
                 slotImageView.frame = CGRect(x: containerView.bounds.origin.x + (containerView.bounds.size.width * CGFloat(containerNumber) * kThird), y: containerView.bounds.origin.y + (containerView.bounds.size.height * CGFloat(slotNumber) * kThird), width: containerView.bounds.width * kThird - kMarginForSlot, height: containerView.bounds.height * kThird - kMarginForSlot)
                 containerView.addSubview(slotImageView)
@@ -211,17 +228,17 @@ class ViewController: UIViewController {
         self.betOneButton.setTitle("Bet One", forState: UIControlState.Normal)
         self.betOneButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
         self.betOneButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 12)
-        self.betOneButton.backgroundColor = UIColor.lightGrayColor()
+        self.betOneButton.backgroundColor = UIColor.greenColor()
         self.betOneButton.sizeToFit()
         self.betOneButton.center = CGPoint(x: containerView.frame.width * kEigth * 3, y: containerView.frame.height * kHalf)
-        self.resetButton.addTarget(self, action: "betOneButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.betOneButton.addTarget(self, action: "betOneButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         containerView.addSubview(self.betOneButton)
         
         self.betMaxButton = UIButton()
         self.betMaxButton.setTitle("Bet Max", forState: UIControlState.Normal)
         self.betMaxButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
         self.betMaxButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 12)
-        self.betMaxButton.backgroundColor = UIColor.lightGrayColor()
+        self.betMaxButton.backgroundColor = UIColor.redColor()
         self.betMaxButton.sizeToFit()
         self.betMaxButton.center = CGPoint(x: containerView.frame.width * kEigth * 5, y: containerView.frame.height * kHalf)
         self.betMaxButton.addTarget(self, action: "betMaxButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -231,7 +248,7 @@ class ViewController: UIViewController {
         self.spinButton.setTitle("Spin", forState: UIControlState.Normal)
         self.spinButton.setTitleColor(UIColor.blueColor(), forState: UIControlState.Normal)
         self.spinButton.titleLabel?.font = UIFont(name: "Superclarendon-Bold", size: 12)
-        self.spinButton.backgroundColor = UIColor.lightGrayColor()
+        self.spinButton.backgroundColor = UIColor.greenColor()
         self.spinButton.sizeToFit()
         self.spinButton.center = CGPoint(x: containerView.frame.width * kEigth * 7, y: containerView.frame.height * kHalf)
         self.spinButton.addTarget(self, action: "spinButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
